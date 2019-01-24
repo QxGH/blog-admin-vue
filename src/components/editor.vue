@@ -105,8 +105,7 @@ export default {
 			var self = this;
 			this.$refs["form"].validate((valid) => {
 				if (valid) {
-					var myDate = new Date();
-					var newDate = myDate.getFullYear()+ "-" +(myDate.getMonth()+1)+ "-" +myDate.getDate();
+					var newDate = parseFloat(new Date().getTime().toString().substr(0,10));
 					var postData = {
 						title: self.form.title,
 						type: self.form.type,

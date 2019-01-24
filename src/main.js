@@ -1,11 +1,11 @@
 // import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Vuex from 'vuex' 
+import Vuex from 'vuex'
 // import axios from 'axios'
 
 // CSS
-import './assets/css/style.css' 
+import './assets/css/style.css'
 import './assets/css/font/iconfont.css'
 
 // 组件
@@ -14,6 +14,29 @@ Vue.component('app-nav', AppNav)
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 Vue.use(mavonEditor)
+
+// 过滤器
+Vue.filter('getDate', function (value) {
+    if (!value) return '';
+    var Y, M, D;
+    var date = new Date(value*1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    Y = date.getFullYear() + '-';
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    D = date.getDate() + ' ';
+    return Y+M+D;
+})
+Vue.filter('getTime', function (value) {
+    if (!value) return '';
+    var Y, M, D, h, m, s;
+    var date = new Date(value*1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    Y = date.getFullYear() + '-';
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    D = date.getDate() + ' ';
+    h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) +':';
+    m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) +':';
+    s = date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds();
+    return Y+M+D+h+m+s;
+})
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
@@ -41,8 +64,8 @@ var store = new Vuex.Store({
     },
   }
 });
- 
- 
+
+
 router.beforeEach((to, from, next) => {
   store.state.token = sessionStorage.getItem('token');//获取本地存储的token
   // 本地有token时直接跳转index
@@ -65,7 +88,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
- 
+
 router.afterEach(route => {
   // iView.LoadingBar.finish();
 });
